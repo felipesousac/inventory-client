@@ -1,3 +1,11 @@
+import { Navbar } from "./components/Navbar";
+import { Home } from "./pages/Home/Home";
+
 export function App() {
-  return <div className="text-blue-600 underline bg-black">Teste</div>;
+  return (
+    <>
+      <Navbar />
+      <Home />
+    </>
+  );
 }
