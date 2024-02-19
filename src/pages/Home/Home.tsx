@@ -1,4 +1,5 @@
 import { Plus, List } from "lucide-react";
+import { ContentCard } from "./ContentCard";
 
 export function Home() {
   return (
@@ -7,22 +8,10 @@ export function Home() {
         <div>Home</div>
         <div className="mb-6 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-700 to-transparent opacity-25 dark:opacity-100 w-full" />
         <div className="flex flex-col items-center justify-center gap-6 w-full">
-          <div className="flex flex-col items-center justify-evenly border border-[#12372A] w-9/12 h-36">
-            <div>List of categories</div>
-            <List />
-          </div>
-          <div className="flex flex-col items-center justify-evenly border border-[#12372A] w-9/12 h-36">
-            <div>Create</div>
-            <Plus />
-          </div>
-          <div className="flex flex-col items-center justify-evenly border border-[#12372A] w-9/12 h-36">
-            <div>Total items</div>
-            <div>0</div>
-          </div>
-          <div className="flex flex-col items-center justify-evenly border border-[#12372A] w-9/12 h-36">
-            <div>Registered categories</div>
-            <div>0</div>
-          </div>
+          <ContentCard url="" title="List of categories" subtitle={<List />} />
+          <ContentCard url="" title="Create" subtitle={<Plus />} />
+          <ContentCard url="" title="Total items" subtitle={0} />
+          <ContentCard url="" title="Registered categories" subtitle={0} />
         </div>
       </div>
     </div>
