@@ -1,4 +1,5 @@
 import { PlusCircle, Home, Component } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export function Navbar() {
   return (
@@ -8,9 +9,12 @@ export function Navbar() {
           <Component /> <span>Inventory</span>
         </div>
         <div className="flex items-center gap-5">
-          <button className="hover:bg-[#12372A] rounded-full p-2 transition-colors">
+          <Link
+            to="/"
+            className="hover:bg-[#12372A] rounded-full p-2 transition-colors"
+          >
             <Home />
-          </button>
+          </Link>
           <button className="hover:bg-[#12372A] rounded-full p-2 transition-colors">
             <PlusCircle />
           </button>
