@@ -10,7 +10,7 @@ export function ContentCard({ title, subtitle, url }: ContentCardProps) {
   return (
     <Link
       to={url}
-      className="shadow-md rounded-md flex flex-col items-center justify-evenly border border-[#12372A] w-9/12 max-w-80 h-36"
+      className="shadow-md rounded-md flex flex-col items-center justify-evenly border border-pallete-dark w-9/12 max-w-80 h-36"
     >
       <div>{title}</div>
       {subtitle}
