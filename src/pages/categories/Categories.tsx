@@ -5,7 +5,7 @@ import { SpinLoader } from "../../components/SpinLoader";
 
 interface Categorie {
   id: string;
-  name: string;
+  categoryName: string;
   description: string;
 }
 

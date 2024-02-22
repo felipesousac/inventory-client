@@ -1,21 +1,23 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface CategoryItemProps {
   category: {
     id: string;
-    name: string;
+    categoryName: string;
     description: string;
   };
   url: string;
 }
 
 export function CategoryItem({ category, url }: CategoryItemProps) {
+  const navigate = useNavigate();
+
   return (
-    <Link
-      to={url}
+    <button
+      onClick={() => navigate(url, { state: category.categoryName })}
       className="shadow-md rounded-md flex flex-col items-center justify-evenly border border-[#12372A] w-9/12 max-w-64 p-5"
     >
-      <div className="text-xl">{category.name}</div>
-    </Link>
+      <div className="text-xl">{category.categoryName}</div>
+    </button>
   );
 }
