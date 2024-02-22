@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CategorieItem } from "./CategorieItem";
+import { CategoryItem } from "./CategoryItem";
 import axios from "axios";
 import { SpinLoader } from "../../components/SpinLoader";
 
@@ -30,12 +30,12 @@ export function Categories() {
           <SpinLoader />
         ) : (
           <div className="flex flex-col items-center justify-center gap-6 w-full">
-            {categories.map((categorie) => {
+            {categories.map((category) => {
               return (
-                <CategorieItem
-                  key={categorie.id}
-                  categorie={categorie}
-                  url={`/categories/${categorie.id}`}
+                <CategoryItem
+                  key={category.id}
+                  category={category}
+                  url={`/categories/${category.id}`}
                 />
               );
             })}

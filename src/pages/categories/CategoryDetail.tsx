@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { SpinLoader } from "../../components/SpinLoader";
 
-interface Categorie {
+interface Item {
   id: string;
   name: string;
   description: string;
+  categorie_id: string;
+  categorie_name: string;
+  price: number;
+  number_in_stock: number;
 }
 
-export function CategorieDetail() {
-  const [categories, setCategories] = useState<Categorie[]>([]);
+export function CategoryDetail() {
+  const [items, setItems] = useState<Item[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   return (
