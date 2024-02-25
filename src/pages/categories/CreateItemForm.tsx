@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { NewItemCard } from "./NewItemCard";
+import { useState } from "react";
 
 const createItemSchema = z.object({
   itemName: z
@@ -21,6 +23,8 @@ const createItemSchema = z.object({
 type CreateItemSchema = z.infer<typeof createItemSchema>;
 
 export function CreateItemForm() {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const { register, handleSubmit } = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchema),
   });
@@ -45,7 +49,7 @@ export function CreateItemForm() {
         headers
       )
       .then((response) => {
-        console.log("It worked");
+        setIsDialogOpen(false);
       })
       .catch((error) => {
         console.log(error);
@@ -53,101 +57,116 @@ export function CreateItemForm() {
   }
 
   return (
-    <div className="w-full h-16 bg-[#436850] shadow-xl ">
-      <div className="mx-auto max-w-6xl flex items-center text-[#FBFADA]">
-        <Dialog.Title className="text-xl p-4">New Item</Dialog.Title>
-      </div>
-      <Dialog.Description className="mx-auto max-w-6xl p-4 text-[#12372A]/90 tracking-tight flex flex-col items-left justify-start gap-4">
-        <p>
-          New items can be registered in the inventory by filling out the form
-          below
-        </p>
-        <div className="mb-4 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-700 to-transparent opacity-25 dark:opacity-100 w-full" />
-        <form className="space-y-2" onSubmit={handleSubmit(createItem)}>
-          <div className="space-y-2">
-            <label htmlFor="name" className="block font-medium">
-              Name
-            </label>
-            <input
-              {...register("itemName")}
-              placeholder="Name"
-              id="itemName"
-              type="text"
-              className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
-            />
-          </div>
+    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog.Trigger className="w-11/12 max-w-xl">
+        <NewItemCard />
+      </Dialog.Trigger>
 
-          <div className="space-y-2">
-            <label htmlFor="description" className="block font-medium">
-              Description
-            </label>
-            <input
-              {...register("description")}
-              placeholder="Description"
-              id="description"
-              type="text"
-              className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
-            />
-          </div>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-[#FBFADA]" />
 
-          <div className="space-y-2">
-            <label htmlFor="unitPrice" className="block font-medium">
-              Unit Price
-            </label>
-            <input
-              {...register("price")}
-              placeholder="Unit Price"
-              id="unitPrice"
-              type="number"
-              className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
-            />
-          </div>
+        <Dialog.Content className="overflow-auto flex flex-col items-center justify-start fixed inset-0 w-full bg-[[#12372A] ">
+          <div className="w-full h-16 bg-[#436850] shadow-xl ">
+            <div className="mx-auto max-w-6xl flex items-center text-[#FBFADA]">
+              <Dialog.Title className="text-xl p-4">New Item</Dialog.Title>
+            </div>
+            <Dialog.Description className="mx-auto max-w-6xl p-4 text-[#12372A]/90 tracking-tight flex flex-col items-left justify-start gap-4">
+              <p>
+                New items can be registered in the inventory by filling out the
+                form below
+              </p>
+              <div className="mb-4 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-700 to-transparent opacity-25 dark:opacity-100 w-full" />
+              <form className="space-y-2" onSubmit={handleSubmit(createItem)}>
+                <div className="space-y-2">
+                  <label htmlFor="name" className="block font-medium">
+                    Name
+                  </label>
+                  <input
+                    {...register("itemName")}
+                    placeholder="Name"
+                    id="itemName"
+                    type="text"
+                    className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
+                  />
+                </div>
 
-          <div className="space-y-2">
-            <label htmlFor="numberInStock" className="block font-medium">
-              Number in Stock
-            </label>
-            <input
-              {...register("numberInStock")}
-              placeholder="Number in Stock"
-              id="numberInStock"
-              type="number"
-              className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
-            />
-          </div>
+                <div className="space-y-2">
+                  <label htmlFor="description" className="block font-medium">
+                    Description
+                  </label>
+                  <input
+                    {...register("description")}
+                    placeholder="Description"
+                    id="description"
+                    type="text"
+                    className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
+                  />
+                </div>
 
-          <div className="space-y-2">
-            <label className="font-medium block" htmlFor="options-view-button">
-              Category
-            </label>
-            <select
-              className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
-              {...register("categoryId")}
-            >
-              <option selected>Select a category</option>
-              <option value={1}>Capital Goods</option>
-              <option value={2}>Beauty</option>
-            </select>
-          </div>
+                <div className="space-y-2">
+                  <label htmlFor="unitPrice" className="block font-medium">
+                    Unit Price
+                  </label>
+                  <input
+                    {...register("price")}
+                    placeholder="Unit Price"
+                    id="unitPrice"
+                    type="number"
+                    className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
+                  />
+                </div>
 
-          <div className="flex gap-4 justify-end p-4">
-            <Dialog.Close asChild>
-              <button className="flex items-center tracking-tight gap-2 border border-[#436850] p-2 rounded-lg">
-                <LucideX className="size-4" />
-                Cancel
-              </button>
-            </Dialog.Close>
+                <div className="space-y-2">
+                  <label htmlFor="numberInStock" className="block font-medium">
+                    Number in Stock
+                  </label>
+                  <input
+                    {...register("numberInStock")}
+                    placeholder="Number in Stock"
+                    id="numberInStock"
+                    type="number"
+                    className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
+                  />
+                </div>
 
-            <button
-              type="submit"
-              className="flex items-center tracking-tight gap-2 p-2 rounded-lg text-[#FBFADA] bg-[#436850]"
-            >
-              <LucideCheck className="size-4" />
-              Register
-            </button>
+                <div className="space-y-2">
+                  <label
+                    className="font-medium block"
+                    htmlFor="options-view-button"
+                  >
+                    Category
+                  </label>
+                  <select
+                    className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
+                    {...register("categoryId")}
+                  >
+                    <option defaultChecked>Select a category</option>
+                    <option value={1}>Capital Goods</option>
+                    <option value={2}>Beauty</option>
+                  </select>
+                </div>
+
+                <div className="flex gap-4 justify-end p-4">
+                  <Dialog.Close asChild>
+                    <button className="flex items-center tracking-tight gap-2 border border-[#436850] p-2 rounded-lg">
+                      <LucideX className="size-4" />
+                      Cancel
+                    </button>
+                  </Dialog.Close>
+
+                  <button
+                    type="submit"
+                    className="flex items-center tracking-tight gap-2 p-2 rounded-lg text-[#FBFADA] bg-[#436850]"
+                  >
+                    <LucideCheck className="size-4" />
+                    Register
+                  </button>
+                </div>
+              </form>
+            </Dialog.Description>
           </div>
-        </form>
-      </Dialog.Description>
-    </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
