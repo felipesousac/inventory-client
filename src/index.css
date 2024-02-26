@@ -19,6 +19,8 @@
     }
  }
 
+
+/* Animate open and close dialog modal */
  @keyframes dialog-overlay-show {
     from {
         opacity: 0;

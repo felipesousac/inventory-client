@@ -144,7 +144,7 @@ export function CreateItemFormField({ afterRegister }: FieldProps) {
             className="group-disabled:pointer-events-none inline-flex items-center justify-center tracking-tight p-2 rounded-lg text-[#FBFADA] bg-[#436850]"
           >
             <div className="absolute">
-              <SpinLoader className="h-4 w-4 group-enabled:opacity-0" />
+              <SpinLoader className="h-4 w-4 group-enabled:opacity-0 border-t-[#FBFADA] border-l-[#FBFADA] border-b-[#FBFADA]" />
             </div>
             <div className="flex items-center gap-2 group-disabled:opacity-0">
               <LucideCheck className="size-4 shrink-0" />
