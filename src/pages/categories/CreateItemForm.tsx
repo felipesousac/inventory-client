@@ -3,7 +3,11 @@ import { NewItemCard } from "./NewItemCard";
 import { useState } from "react";
 import { CreateItemFormField } from "./CreateItemFormField";
 
-export function CreateItemForm() {
+interface Props {
+  categoryId: string | undefined;
+}
+
+export function CreateItemForm({ categoryId }: Props) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
@@ -29,6 +33,7 @@ export function CreateItemForm() {
 
               <CreateItemFormField
                 afterRegister={() => setIsDialogOpen(false)}
+                categoryId={categoryId}
               />
             </Dialog.Description>
           </div>

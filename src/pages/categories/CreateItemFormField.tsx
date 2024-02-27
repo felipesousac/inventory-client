@@ -13,20 +13,22 @@ const createItemSchema = z.object({
     .min(3, { message: "Minimum 3 characters" })
     .max(30, { message: "Maximum 30 characters" }),
   description: z.string().max(50, { message: "Maximum 50 characters" }),
-  categoryId: z.coerce.number(),
   price: z.coerce.number().gt(0, { message: "Must be more than zero" }),
   numberInStock: z.coerce
     .number()
     .nonnegative({ message: "Must not be less than zero" }),
 });
 
-type CreateItemSchema = z.infer<typeof createItemSchema>;
+type CreateItemSchema = z.infer<typeof createItemSchema> & {
+  categoryId: string | undefined;
+};
 
 interface FieldProps {
   afterRegister: () => void;
+  categoryId: string | undefined;
 }
 
-export function CreateItemFormField({ afterRegister }: FieldProps) {
+export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
   const [isSaving, setIsSaving] = useState(false);
 
   const { register, handleSubmit } = useForm<CreateItemSchema>({
@@ -36,7 +38,6 @@ export function CreateItemFormField({ afterRegister }: FieldProps) {
   async function createItem({
     itemName,
     description,
-    categoryId,
     price,
     numberInStock,
   }: CreateItemSchema) {
@@ -51,7 +52,7 @@ export function CreateItemFormField({ afterRegister }: FieldProps) {
     await axios
       .post(
         "http://localhost:8080/items",
-        { itemName, description, categoryId, price, numberInStock },
+        { itemName, description, categoryId: categoryId, price, numberInStock },
         headers
       )
       .then((response) => {
@@ -63,8 +64,8 @@ export function CreateItemFormField({ afterRegister }: FieldProps) {
   }
 
   return (
-    <form className="space-y-2" onSubmit={handleSubmit(createItem)}>
-      <fieldset disabled={isSaving} className="group">
+    <form onSubmit={handleSubmit(createItem)}>
+      <fieldset disabled={isSaving} className="group space-y-4">
         <div className="space-y-2">
           <label htmlFor="name" className="block font-medium">
             Name
@@ -115,20 +116,6 @@ export function CreateItemFormField({ afterRegister }: FieldProps) {
             type="number"
             className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
           />
-        </div>
-
-        <div className="space-y-2">
-          <label className="font-medium block" htmlFor="options-view-button">
-            Category
-          </label>
-          <select
-            className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
-            {...register("categoryId")}
-          >
-            <option defaultChecked>Select a category</option>
-            <option value={1}>Capital Goods</option>
-            <option value={2}>Beauty</option>
-          </select>
         </div>
 
         <div className="flex gap-4 justify-end p-4">
