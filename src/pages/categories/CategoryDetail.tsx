@@ -4,8 +4,6 @@ import { SpinLoader } from "../../components/SpinLoader";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { LucideArrowLeftCircle } from "lucide-react";
 import { ItemCard } from "./ItemCard";
-import { NewItemCard } from "./NewItemCard";
-import * as Dialog from "@radix-ui/react-dialog";
 import { CreateItemForm } from "./CreateItemForm";
 
 interface Item {
@@ -29,7 +27,7 @@ export function CategoryDetail() {
 
   useEffect(() => {
     axios.get(`http://localhost:8080/items/${id}`).then((response) => {
-      setItems(response.data);
+      setItems(response.data.content);
       setIsLoading(false);
     });
   }, []);

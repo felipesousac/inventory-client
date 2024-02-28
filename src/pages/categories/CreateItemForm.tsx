@@ -17,9 +17,9 @@ export function CreateItemForm({ categoryId }: Props) {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-[#FBFADA] data-[state=open]:animate-[dialog-overlay-show_300ms] data-[state=closed]:animate-[dialog-overlay-hide_300ms]" />
+        <Dialog.Overlay className="fixed inset-0 bg-slate-200 data-[state=open]:animate-[dialog-overlay-show_300ms] data-[state=closed]:animate-[dialog-overlay-hide_300ms]" />
 
-        <Dialog.Content className="data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms] overflow-auto flex flex-col items-center justify-start fixed inset-0 w-full bg-[[#12372A] ">
+        <Dialog.Content className="data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms] overflow-auto flex flex-col items-center justify-start fixed inset-0 w-full ">
           <div className="w-full h-16 bg-[#436850] shadow-xl ">
             <div className="mx-auto max-w-6xl flex items-center text-[#FBFADA]">
               <Dialog.Title className="text-xl p-4">New Item</Dialog.Title>

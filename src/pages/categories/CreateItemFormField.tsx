@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { SpinLoader } from "@/components/SpinLoader";
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
 
 const createItemSchema = z.object({
   itemName: z
@@ -31,7 +32,7 @@ interface FieldProps {
 export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
   const [isSaving, setIsSaving] = useState(false);
 
-  const { register, handleSubmit } = useForm<CreateItemSchema>({
+  const { register, handleSubmit, formState } = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchema),
   });
 
@@ -42,6 +43,9 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
     numberInStock,
   }: CreateItemSchema) {
     setIsSaving(true);
+
+    // Delay on form submit
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
     const headers = {
       headers: {
@@ -77,6 +81,11 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
             type="text"
             className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
           />
+          {formState.errors?.itemName?.message && (
+            <p className="text-sm text-red-500">
+              {formState.errors.itemName.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -90,6 +99,11 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
             type="text"
             className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
           />
+          {formState.errors?.description?.message && (
+            <p className="text-sm text-red-500">
+              {formState.errors.description.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -103,6 +117,11 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
             type="number"
             className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
           />
+          {formState.errors?.price?.message && (
+            <p className="text-sm text-red-500">
+              {formState.errors.price.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-2">
@@ -116,11 +135,16 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
             type="number"
             className="border border-[#12372A] rounded-lg px-3 py-2 w-full"
           />
+          {formState.errors?.numberInStock?.message && (
+            <p className="text-sm text-red-500">
+              {formState.errors.numberInStock.message}
+            </p>
+          )}
         </div>
 
         <div className="flex gap-4 justify-end p-4">
           <Dialog.Close asChild>
-            <button className="flex items-center tracking-tight gap-2 border border-[#436850] p-2 rounded-lg">
+            <button className="flex items-center tracking-tight gap-2 border border-[#436850] p-2 rounded-lg bg-white">
               <LucideX className="size-4" />
               Cancel
             </button>

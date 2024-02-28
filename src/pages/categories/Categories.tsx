@@ -1,24 +1,67 @@
-import { useEffect, useState } from "react";
 import { CategoryItem } from "./CategoryItem";
 import axios from "axios";
 import { SpinLoader } from "../../components/SpinLoader";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Pagination } from "@/components/Pagination";
+import { useSearchParams } from "react-router-dom";
 
-interface Categorie {
+// Interfaces of Pageable data API response
+export interface CategoryResponse {
+  content: Categorie[];
+  pageable: Pageable;
+  last: boolean;
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  number: number;
+  sort: Sort;
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+}
+
+export interface Categorie {
   id: string;
   categoryName: string;
   description: string;
 }
 
-export function Categories() {
-  const [categories, setCategories] = useState<Categorie[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: Sort;
+  offset: number;
+  unpaged: boolean;
+  paged: boolean;
+}
 
-  useEffect(() => {
-    axios.get("http://localhost:8080/categories").then((response) => {
-      setCategories(response.data.content);
-      setIsLoading(false);
-    });
-  }, []);
+export interface Sort {
+  empty: boolean;
+  sorted: boolean;
+  unsorted: boolean;
+}
+
+export function Categories() {
+  const [searchParams] = useSearchParams();
+
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 0;
+
+  const { data: categoriesResponse, isLoading } = useQuery<CategoryResponse>({
+    queryKey: ["get-categories", page],
+    queryFn: async () => {
+      const data = await axios
+        .get(`http://localhost:8080/categories?page=${page}&size=10`)
+        .then((response) => {
+          console.log(response.data);
+          return response.data;
+        });
+
+      return data;
+    },
+
+    placeholderData: keepPreviousData,
+    staleTime: 1000 * 60,
+  });
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -30,7 +73,7 @@ export function Categories() {
           <SpinLoader />
         ) : (
           <div className="flex flex-col items-center justify-center gap-6 w-full">
-            {categories.map((category) => {
+            {categoriesResponse?.content.map((category) => {
               return (
                 <CategoryItem
                   key={category.id}
@@ -40,6 +83,14 @@ export function Categories() {
               );
             })}
           </div>
+        )}
+
+        {categoriesResponse && (
+          <Pagination
+            pages={categoriesResponse.totalPages}
+            items={categoriesResponse.totalElements}
+            page={page}
+          />
         )}
       </div>
     </div>
