@@ -8,7 +8,9 @@
 *   React
 *   Vite
 *   Tailwind CSS
+*   Radix UI
 *   React Router
+*   React Query
 
 ## Running locally
 
