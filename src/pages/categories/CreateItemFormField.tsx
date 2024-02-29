@@ -77,8 +77,7 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        // need to be items queryKey
-        queryKey: ["get-categories"],
+        queryKey: ["get-items"],
       });
     },
   });
