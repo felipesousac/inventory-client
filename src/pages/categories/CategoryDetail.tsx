@@ -1,19 +1,54 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { SpinLoader } from "../../components/SpinLoader";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import { LucideArrowLeftCircle } from "lucide-react";
 import { ItemCard } from "./ItemCard";
 import { CreateItemForm } from "./CreateItemForm";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Pagination } from "@/components/Pagination";
 
-interface Item {
+export interface ItemResponse {
+  content: Item[];
+  pageable: Pageable;
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: Sort;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
+}
+
+export interface Item {
   id: string;
   itemName: string;
   description: string;
-  categoriyId: string;
-  categoryName: string;
+  categoryId: string;
   price: number;
   numberInStock: number;
+}
+
+export interface Pageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: Sort;
+  offset: number;
+  paged: boolean;
+  unpaged: boolean;
+}
+
+export interface Sort {
+  empty: boolean;
+  unsorted: boolean;
+  sorted: boolean;
 }
 
 export function CategoryDetail() {
@@ -22,15 +57,24 @@ export function CategoryDetail() {
   const location = useLocation();
   const data = location.state;
 
-  const [items, setItems] = useState<Item[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [searchParams] = useSearchParams();
 
-  useEffect(() => {
-    axios.get(`http://localhost:8080/items/${id}`).then((response) => {
-      setItems(response.data.content);
-      setIsLoading(false);
-    });
-  }, []);
+  const page = searchParams.get("page") ? Number(searchParams.get("page")) : 0;
+
+  const { data: itemsResponse, isLoading } = useQuery<ItemResponse>({
+    queryKey: ["get-items", page, id],
+    queryFn: async () => {
+      const data = axios
+        .get(`http://localhost:8080/items/${id}?page=${page}&size=10`)
+        .then((response) => {
+          return response.data;
+        });
+      return data;
+    },
+
+    placeholderData: keepPreviousData,
+    staleTime: 1000 * 60,
+  });
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -52,18 +96,21 @@ export function CategoryDetail() {
         {isLoading ? (
           <SpinLoader />
         ) : (
-          <div className="w-full flex flex-col items-center justify-center gap-4 w-4/5">
-            {items.length ? (
-              <>
-                {items.map((item) => {
-                  return <ItemCard key={item.id} item={item} />;
-                })}
-              </>
-            ) : (
-              <div className="text-md w-80 text-center">
-                This category has no registered items
-              </div>
-            )}
+          <div className="w-full flex flex-col items-center justify-center gap-4">
+            {itemsResponse?.content.map((item) => {
+              return <ItemCard key={item.id} item={item} />;
+            })}
+          </div>
+        )}
+        {itemsResponse && itemsResponse?.totalElements > 0 ? (
+          <Pagination
+            pages={itemsResponse.totalPages}
+            items={itemsResponse.totalElements}
+            page={page}
+          />
+        ) : (
+          <div className="text-md w-full text-center">
+            This category has no registered items
           </div>
         )}
       </div>

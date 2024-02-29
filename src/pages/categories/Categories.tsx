@@ -1,6 +1,6 @@
 import { CategoryItem } from "./CategoryItem";
-import axios from "axios";
 import { SpinLoader } from "../../components/SpinLoader";
+import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Pagination } from "@/components/Pagination";
 import { useSearchParams } from "react-router-dom";
@@ -52,7 +52,6 @@ export function Categories() {
       const data = await axios
         .get(`http://localhost:8080/categories?page=${page}&size=10`)
         .then((response) => {
-          console.log(response.data);
           return response.data;
         });
 

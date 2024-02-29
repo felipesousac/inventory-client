@@ -52,7 +52,7 @@ export function Pagination({ items, page, pages }: PaginationProps) {
 
   function lastPage() {
     setSearchParams((params) => {
-      params.set("page", String(pages));
+      params.set("page", String(pages - 1));
 
       return params;
     });
@@ -60,7 +60,9 @@ export function Pagination({ items, page, pages }: PaginationProps) {
 
   return (
     <div className="w-full flex text-sm items-center justify-between text-zinc-500">
-      <span>Showing 10 of {items} items</span>
+      <span>
+        Showing {items < 10 ? items : 10} of {items} items
+      </span>
       <div className="flex items-center gap-8">
         <div className="flex items-center gap-2">
           <span>Rows per page</span>
@@ -88,11 +90,11 @@ export function Pagination({ items, page, pages }: PaginationProps) {
             <ChevronLeft className="size-4" />
             <span className="sr-only">Previous page</span>
           </Button>
-          <Button onClick={nextPage} size="icon" disabled={page + 1 > pages}>
+          <Button onClick={nextPage} size="icon" disabled={page + 1 >= pages}>
             <ChevronRight className="size-4" />
             <span className="sr-only">Next page</span>
           </Button>
-          <Button onClick={lastPage} size="icon" disabled={page + 1 > pages}>
+          <Button onClick={lastPage} size="icon" disabled={page + 1 >= pages}>
             <ChevronsRight className="size-4" />
             <span className="sr-only">Last page</span>
           </Button>

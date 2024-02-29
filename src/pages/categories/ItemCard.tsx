@@ -5,8 +5,7 @@ interface ItemCardProps {
     id: string;
     itemName: string;
     description: string;
-    categoriyId: string;
-    categoryName: string;
+    categoryId: string;
     price: number;
     numberInStock: number;
   };

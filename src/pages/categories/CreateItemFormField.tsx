@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { SpinLoader } from "@/components/SpinLoader";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const createItemSchema = z.object({
   itemName: z
@@ -30,10 +30,57 @@ interface FieldProps {
 }
 
 export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
+  const queryClient = useQueryClient();
+
   const [isSaving, setIsSaving] = useState(false);
 
   const { register, handleSubmit, formState } = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchema),
+  });
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async ({
+      itemName,
+      description,
+      price,
+      numberInStock,
+    }: CreateItemSchema) => {
+      setIsSaving(true);
+
+      // Delay on form submit
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
+      const headers = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      await axios
+        .post(
+          "http://localhost:8080/items",
+          {
+            itemName,
+            description,
+            categoryId: categoryId,
+            price,
+            numberInStock,
+          },
+          headers
+        )
+        .then((response) => {
+          afterRegister();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        // need to be items queryKey
+        queryKey: ["get-categories"],
+      });
+    },
   });
 
   async function createItem({
@@ -42,29 +89,13 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
     price,
     numberInStock,
   }: CreateItemSchema) {
-    setIsSaving(true);
-
-    // Delay on form submit
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    const headers = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    await axios
-      .post(
-        "http://localhost:8080/items",
-        { itemName, description, categoryId: categoryId, price, numberInStock },
-        headers
-      )
-      .then((response) => {
-        afterRegister();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await mutateAsync({
+      itemName,
+      description,
+      price,
+      numberInStock,
+      categoryId: categoryId,
+    });
   }
 
   return (
