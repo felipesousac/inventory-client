@@ -26,7 +26,7 @@ export function SelectTrigger({ className, ...props }: SelectTriggerProps) {
     >
       <SelectPrimitive.Value placeholder="Select an option" />
 
-      <SelectPrimitive.Icon className="text-zinc-600">
+      <SelectPrimitive.Icon className=" text-[#FBFADA]">
         <ChevronDown className="size-4" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>

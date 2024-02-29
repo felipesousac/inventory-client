@@ -59,16 +59,16 @@ export function Pagination({ items, page, pages }: PaginationProps) {
   }
 
   return (
-    <div className="w-full flex text-sm items-center justify-between text-zinc-500">
-      <span>
-        Showing {items < 10 ? items : 10} of {items} items
-      </span>
+    <div className="w-full flex flex-col text-sm items-center justify-center mt-2 text-[#12372A]">
       <div className="flex items-center gap-8">
         <div className="flex items-center gap-2">
           <span>Rows per page</span>
 
           <Select defaultValue="10">
-            <SelectTrigger aria-label="Page" />
+            <SelectTrigger
+              aria-label="Page"
+              className=" text-[#FBFADA] bg-[#436850]/70"
+            />
             <SelectContent>
               <SelectItem value="10">10</SelectItem>
               <SelectItem value="20">20</SelectItem>
@@ -82,23 +82,46 @@ export function Pagination({ items, page, pages }: PaginationProps) {
         </span>
 
         <div className="space-x-1.5">
-          <Button onClick={firstPage} size="icon" disabled={page - 1 < 0}>
-            <ChevronsLeft className="size-4" />
+          <Button
+            className="bg-[#436850]"
+            onClick={firstPage}
+            size="icon"
+            disabled={page - 1 < 0}
+          >
+            <ChevronsLeft className="size-4 text-[#FBFADA]" />
             <span className="sr-only">First page</span>
           </Button>
-          <Button onClick={previousPage} size="icon" disabled={page - 1 < 0}>
-            <ChevronLeft className="size-4" />
+          <Button
+            className="bg-[#436850]"
+            onClick={previousPage}
+            size="icon"
+            disabled={page - 1 < 0}
+          >
+            <ChevronLeft className="size-4 text-[#FBFADA]" />
             <span className="sr-only">Previous page</span>
           </Button>
-          <Button onClick={nextPage} size="icon" disabled={page + 1 >= pages}>
-            <ChevronRight className="size-4" />
+          <Button
+            className="bg-[#436850]"
+            onClick={nextPage}
+            size="icon"
+            disabled={page + 1 >= pages}
+          >
+            <ChevronRight className="size-4 text-[#FBFADA]" />
             <span className="sr-only">Next page</span>
           </Button>
-          <Button onClick={lastPage} size="icon" disabled={page + 1 >= pages}>
-            <ChevronsRight className="size-4" />
+          <Button
+            className="bg-[#436850]"
+            onClick={lastPage}
+            size="icon"
+            disabled={page + 1 >= pages}
+          >
+            <ChevronsRight className="size-4 text-[#FBFADA]" />
             <span className="sr-only">Last page</span>
           </Button>
         </div>
+      </div>
+      <div className="mt-2">
+        Showing {items < 10 ? items : 10} of {items} items
       </div>
     </div>
   );
