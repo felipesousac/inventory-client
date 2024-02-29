@@ -11,6 +11,7 @@ import { ItemCard } from "./ItemCard";
 import { CreateItemForm } from "./CreateItemForm";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Pagination } from "@/components/Pagination";
+import { useState } from "react";
 
 export interface ItemResponse {
   content: Item[];
@@ -54,7 +55,7 @@ export function CategoryDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const data = location.state;
+  const [data] = useState(location.state);
 
   const [searchParams] = useSearchParams();
 
