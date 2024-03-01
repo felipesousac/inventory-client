@@ -17,19 +17,19 @@ export function CreateItemForm({ categoryId }: Props) {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-slate-200 data-[state=open]:animate-[dialog-overlay-show_300ms] data-[state=closed]:animate-[dialog-overlay-hide_300ms]" />
+        <Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-[dialog-overlay-show_300ms] data-[state=closed]:animate-[dialog-overlay-hide_300ms]" />
 
-        <Dialog.Content className="data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms] overflow-auto flex flex-col items-center justify-start fixed inset-0 w-full ">
-          <div className="w-full h-16 bg-[#436850] shadow-xl ">
-            <div className="mx-auto max-w-6xl flex items-center text-[#FBFADA]">
-              <Dialog.Title className="text-xl p-4">New Item</Dialog.Title>
+        <Dialog.Content className="data-[state=open]:animate-[dialog-content-show_200ms] data-[state=closed]:animate-[dialog-content-hide_200ms] flex flex-col items-center justify-start fixed top-4 left-1/2 -translate-x-1/2 w-5/6 max-w-3xl">
+          <div className="w-full bg-[#436850] shadow-xl rounded-md ">
+            <div className="mx-auto flex items-center text-[#FBFADA]">
+              <Dialog.Title className="text-xl p-2">New Item</Dialog.Title>
             </div>
-            <Dialog.Description className="mx-auto max-w-6xl p-4 text-[#12372A]/90 tracking-tight flex flex-col items-left justify-start gap-4">
+            <Dialog.Description className="bg-slate-200 rounded-b-md mx-auto max-w-6xl p-4 text-[#12372A]/90 tracking-tight flex flex-col items-left justify-start gap-2">
               <p>
                 New items can be registered in the inventory by filling out the
                 form below
               </p>
-              <div className="mb-4 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-700 to-transparent opacity-25 dark:opacity-100 w-full" />
+              <div className="h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-700 to-transparent opacity-25 dark:opacity-100 w-full" />
 
               <CreateItemFormField
                 afterRegister={() => setIsDialogOpen(false)}
