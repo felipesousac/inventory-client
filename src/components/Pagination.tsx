@@ -59,7 +59,7 @@ export function Pagination({ items, page, pages }: PaginationProps) {
   }
 
   return (
-    <div className="w-full flex flex-col md:flex-row-reverse text-sm items-center justify-center md:justify-between md:px-2 mt-2 text-[#12372A]">
+    <div className="w-full flex flex-col md:flex-row-reverse text-sm items-center justify-center md:justify-between md:px-4 mt-2 text-[#12372A]">
       <div className="flex items-center gap-8">
         <div className="flex items-center gap-2">
           <span>Rows per page</span>

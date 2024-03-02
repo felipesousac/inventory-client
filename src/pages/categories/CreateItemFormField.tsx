@@ -172,9 +172,9 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
           )}
         </div>
 
-        <div className="flex gap-4 justify-end p-4">
+        <div className="flex gap-4 justify-end py-4">
           <Dialog.Close asChild>
-            <button className="flex items-center tracking-tight gap-2 border border-[#436850] p-2 rounded-lg bg-white">
+            <button className="flex items-center justify-center tracking-tight gap-2 py-2 px-3 rounded-md hover:bg-red-500 hover:text-[white] transition-colors">
               <LucideX className="size-4" />
               Cancel
             </button>
@@ -182,7 +182,7 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
 
           <button
             type="submit"
-            className="group-disabled:pointer-events-none inline-flex items-center justify-center tracking-tight p-2 rounded-lg text-[#FBFADA] bg-[#436850]"
+            className="group-disabled:pointer-events-none inline-flex items-center justify-center tracking-tight py-2 px-3 rounded-md text-[#FBFADA] bg-[#436850] hover:bg-[#12372A] transition-colors"
           >
             <div className="absolute">
               <SpinLoader className="h-4 w-4 group-enabled:opacity-0 border-t-[#FBFADA] border-l-[#FBFADA] border-b-[#FBFADA]" />

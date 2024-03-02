@@ -1,6 +1,6 @@
-import { LucideMoreHorizontal } from "lucide-react";
+import { ItemDetailModal } from "./ItemDetailModal";
 
-interface ItemCardProps {
+export interface ItemCardProps {
   item: {
     id: string;
     itemName: string;
@@ -14,7 +14,7 @@ interface ItemCardProps {
 export function ItemCard({ item }: ItemCardProps) {
   return (
     <div className="w-11/12 max-w-xl flex items-center justify-between rounded-md border border-gray-400 py-2 px-3 leading-normal shadow-lg bg-white">
-      <div className="shrink-0">
+      <div>
         <div className="h-16 w-16 rounded-md bg-slate-300 flex items-center justify-center ">
           Img
         </div>
@@ -25,10 +25,8 @@ export function ItemCard({ item }: ItemCardProps) {
         </p>
         <p className="text-base">{`${item.numberInStock} in stock`}</p>
       </div>
-      <div className="shrink-0 flex flex-col items-end justify-end max-h-full h-16">
-        <button className="rounded-full hover:text-slate-950">
-          <LucideMoreHorizontal size={26} />
-        </button>
+      <div className="flex flex-col items-end justify-end max-h-full h-16">
+        <ItemDetailModal item={item} />
       </div>
     </div>
   );
