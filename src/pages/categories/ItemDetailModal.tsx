@@ -1,10 +1,58 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { LucideMoreHorizontal } from "lucide-react";
-import { ItemCardProps } from "./ItemCard";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { useState } from "react";
 
-export function ItemDetailModal({ item }: ItemCardProps) {
+export interface ItemDetailProps {
+  item: {
+    id: string;
+    itemName: string;
+    description: string;
+    categoryId: string;
+    price: number;
+    numberInStock: number;
+  };
+}
+
+interface ItemMutation {
+  id: string;
+  itemName: string;
+  description: string;
+  categoryId: string;
+  price: number;
+  numberInStock: number;
+}
+
+export function ItemDetailModal({ item }: ItemDetailProps) {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (id: string) => {
+      await axios
+        .delete(`http://localhost:8080/items/${id}`)
+        .then((response) => {
+          setIsDialogOpen(false);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["get-items"],
+      });
+    },
+  });
+
+  async function deleteItem({ id }: ItemMutation) {
+    await mutateAsync(id);
+  }
+
   return (
-    <Dialog.Root>
+    <Dialog.Root open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <Dialog.Trigger className="rounded-full hover:text-slate-950">
         <LucideMoreHorizontal size={26} />
       </Dialog.Trigger>
@@ -32,7 +80,10 @@ export function ItemDetailModal({ item }: ItemCardProps) {
               <button className="bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700 font-semibold transition-colors hover:bg-gray-300">
                 Edit
               </button>
-              <button className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-red-500 hover:text-[white] transition-colors">
+              <button
+                onClick={() => deleteItem(item)}
+                className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-red-500 hover:text-[white] transition-colors"
+              >
                 Delete
               </button>
             </div>
