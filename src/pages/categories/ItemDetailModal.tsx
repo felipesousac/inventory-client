@@ -27,6 +27,10 @@ interface ItemMutation {
 export function ItemDetailModal({ item }: ItemDetailProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
+  const [showOptions, setShowOptions] = useState(true);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [showUpdateConfirm, setShowUpdateConfirm] = useState(false);
+
   const queryClient = useQueryClient();
 
   const { mutateAsync } = useMutation({
@@ -49,6 +53,20 @@ export function ItemDetailModal({ item }: ItemDetailProps) {
 
   async function deleteItem({ id }: ItemMutation) {
     await mutateAsync(id);
+  }
+
+  //const { mutateAsync: mutateUpdate } = useMutation({
+  //  mutationFn: async(),
+  //});
+
+  function confirmDelete() {
+    setShowOptions(!showOptions);
+    setShowDeleteConfirm(!showDeleteConfirm);
+  }
+
+  function confirmUpdate() {
+    setShowOptions(!showOptions);
+    setShowUpdateConfirm(!showUpdateConfirm);
   }
 
   return (
@@ -77,15 +95,62 @@ export function ItemDetailModal({ item }: ItemDetailProps) {
             <p>{item.numberInStock} in stock</p>
 
             <div className="pt-2 flex gap-2">
-              <button className="bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700 font-semibold transition-colors hover:bg-gray-300">
-                Edit
-              </button>
-              <button
-                onClick={() => deleteItem(item)}
-                className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-red-500 hover:text-[white] transition-colors"
-              >
-                Delete
-              </button>
+              {showOptions && (
+                <>
+                  <button
+                    onClick={confirmUpdate}
+                    className="bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700 font-semibold transition-colors hover:bg-gray-300"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-red-500 hover:text-[white] transition-colors"
+                  >
+                    Delete
+                  </button>
+                </>
+              )}
+
+              {showUpdateConfirm && (
+                <>
+                  <div className="text-sm py-1 font-semibold text-gray-700">
+                    Confirm changes?
+                  </div>
+                  <button
+                    onClick={() => alert("teste")}
+                    className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-[#436850] hover:text-[white] transition-colors"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={confirmUpdate}
+                    className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-gray-300 transition-colors"
+                  >
+                    No
+                  </button>
+                </>
+              )}
+
+              {showDeleteConfirm && (
+                <>
+                  <div className="text-sm py-1 font-semibold text-gray-700">
+                    Confirm delete?
+                  </div>
+                  <button
+                    onClick={() => deleteItem(item)}
+                    className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-red-500 hover:text-[white] transition-colors"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={confirmDelete}
+                    className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-gray-300 transition-colors"
+                  >
+                    No
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </Dialog.Content>
