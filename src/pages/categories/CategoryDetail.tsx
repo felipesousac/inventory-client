@@ -12,6 +12,15 @@ import { CreateItemForm } from "./CreateItemForm";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Pagination } from "@/components/Pagination";
 import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/Table";
+import { ItemDetailModal } from "./ItemDetailModal";
 
 export interface ItemResponse {
   content: Item[];
@@ -96,11 +105,34 @@ export function CategoryDetail() {
         {isLoading ? (
           <SpinLoader />
         ) : (
-          <div className="w-full flex flex-col items-center justify-center gap-4">
-            {itemsResponse?.content.map((item) => {
-              return <ItemCard key={item.id} item={item} />;
-            })}
-          </div>
+          <Table className="">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Image</TableHead>
+                <TableHead>Item Name</TableHead>
+                <TableHead>Number in stock</TableHead>
+                <TableHead></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {itemsResponse?.content.map((item) => {
+                return (
+                  <TableRow key={item.id}>
+                    <TableCell>
+                      <div className="h-12 w-12 rounded-md bg-slate-300 flex items-center justify-center ">
+                        Img
+                      </div>
+                    </TableCell>
+                    <TableCell>{item.itemName}</TableCell>
+                    <TableCell>{item.numberInStock}</TableCell>
+                    <TableCell className="text-right">
+                      <ItemDetailModal item={item} />
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         )}
         {itemsResponse && itemsResponse?.totalElements > 0 ? (
           <Pagination

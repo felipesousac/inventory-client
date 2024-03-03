@@ -91,9 +91,6 @@ export function ItemDetailModal({ item }: ItemDetailProps) {
     }: EditItemSchema) => {
       setIsSaving(true);
 
-      // Delay on form submit
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
       const headers = {
         headers: {
           "Content-Type": "application/json",
