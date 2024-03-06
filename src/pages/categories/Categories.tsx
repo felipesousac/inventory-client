@@ -4,6 +4,7 @@ import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Pagination } from "@/components/Pagination";
 import { useSearchParams } from "react-router-dom";
+import http from "@/http";
 
 // Interfaces of Pageable data API response
 export interface CategoryResponse {
@@ -49,8 +50,8 @@ export function Categories() {
   const { data: categoriesResponse, isLoading } = useQuery<CategoryResponse>({
     queryKey: ["get-categories", page],
     queryFn: async () => {
-      const data = await axios
-        .get(`http://localhost:8080/categories?page=${page}&size=10`)
+      const data = await http
+        .get(`/categories?page=${page}&size=10`)
         .then((response) => {
           return response.data;
         });

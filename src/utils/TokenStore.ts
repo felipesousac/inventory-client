@@ -5,7 +5,7 @@ export class TokenStore {
     sessionStorage.setItem(TOKEN, token);
   }
 
-  static get token() {
+  static get getToken() {
     return sessionStorage.getItem(TOKEN);
   }
 }
