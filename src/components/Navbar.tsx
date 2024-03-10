@@ -1,17 +1,14 @@
 import { useUserSessionContext } from "@/contexts/UserSession";
-import { TokenStore } from "@/utils/TokenStore";
 import {
   LucideComponent,
   LucideHome,
-  LucideSettings,
   LucideLogIn,
+  LucideLogOut,
 } from "lucide-react";
-import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export function Navbar() {
-  const { userIsLogged } = useUserSessionContext();
-  console.log(`userIsLogged: ${userIsLogged}`);
+  const { userIsLogged, logout } = useUserSessionContext();
 
   return (
     <div className="w-full bg-[#436850] shadow-xl">
@@ -28,8 +25,11 @@ export function Navbar() {
               >
                 <LucideHome />
               </Link>
-              <button className="hover:bg-[#12372A] rounded-full p-2 transition-colors">
-                <LucideSettings />
+              <button
+                onClick={logout}
+                className="hover:bg-[#12372A] rounded-full p-2 transition-colors"
+              >
+                <LucideLogOut />
               </button>
             </>
           )}

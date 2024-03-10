@@ -3,10 +3,10 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 import { SpinLoader } from "@/components/SpinLoader";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import http from "@/http";
 
 const createItemSchema = z.object({
   itemName: z
@@ -56,9 +56,9 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
         },
       };
 
-      await axios
+      await http
         .post(
-          "http://localhost:8080/items",
+          "/items",
           {
             itemName,
             description,
@@ -68,7 +68,7 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
           },
           headers
         )
-        .then((response) => {
+        .then(() => {
           afterRegister();
         })
         .catch((error) => {

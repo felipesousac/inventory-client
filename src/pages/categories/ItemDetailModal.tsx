@@ -1,12 +1,12 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { LucideMoreHorizontal } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { SpinLoader } from "@/components/SpinLoader";
+import http from "@/http";
 
 export interface ItemDetailProps {
   item: {
@@ -62,9 +62,9 @@ export function ItemDetailModal({ item }: ItemDetailProps) {
 
   const { mutateAsync } = useMutation({
     mutationFn: async (id: string) => {
-      await axios
-        .delete(`http://localhost:8080/items/${id}`)
-        .then((response) => {
+      await http
+        .delete(`/items/${id}`)
+        .then(() => {
           setIsDialogOpen(false);
         })
         .catch((error) => {
@@ -97,9 +97,9 @@ export function ItemDetailModal({ item }: ItemDetailProps) {
         },
       };
 
-      await axios
+      await http
         .put(
-          `http://localhost:8080/items/${item.id}`,
+          `/items/${item.id}`,
           {
             itemName,
             description,
@@ -108,7 +108,7 @@ export function ItemDetailModal({ item }: ItemDetailProps) {
           },
           headers
         )
-        .then((response) => {
+        .then(() => {
           setIsSaving(false);
           confirmUpdate();
         })

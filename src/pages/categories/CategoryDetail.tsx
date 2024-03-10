@@ -1,4 +1,3 @@
-import axios from "axios";
 import { SpinLoader } from "../../components/SpinLoader";
 import {
   useLocation,

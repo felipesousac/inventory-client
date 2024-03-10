@@ -1,6 +1,5 @@
 import { CategoryItem } from "./CategoryItem";
 import { SpinLoader } from "../../components/SpinLoader";
-import axios from "axios";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Pagination } from "@/components/Pagination";
 import { useSearchParams } from "react-router-dom";

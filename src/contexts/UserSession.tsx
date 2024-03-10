@@ -1,7 +1,6 @@
 import http from "@/http";
 import { TokenStore } from "@/utils/TokenStore";
-import React, { ComponentProps, createContext, useContext } from "react";
-import { useNavigate } from "react-router";
+import React, { createContext, useContext } from "react";
 
 interface LoginProps {
   username: string;
@@ -22,9 +21,9 @@ type AuthContextProps = {
 
 const UserSessionContext = createContext<AuthContextProps>({
   userIsLogged: false,
-  login: ({ username, userPass }: LoginProps) => null,
+  login: ({}: LoginProps) => null,
   logout: () => null,
-  profile: "UserTeste",
+  profile: "",
 });
 
 export function useUserSessionContext() {
@@ -43,11 +42,8 @@ export function UserSessionProvider({
         userPass,
       })
       .then((response) => {
-        //const navigate = useNavigate();
-
         TokenStore.setToken(response.data.token);
         window.location.href = "/";
-        //navigate("/home");
       })
       .catch((error) => {
         console.error(error);
@@ -56,9 +52,19 @@ export function UserSessionProvider({
 
   const userIsLogged = TokenStore.getToken != null;
 
+  function logout() {
+    TokenStore.logout();
+    window.location.href = "/login";
+  }
+
+  //Como retornar dados do perfil?
+  const profile = "admin";
+
   const value = {
     login,
     userIsLogged,
+    profile,
+    logout,
   };
 
   return (
