@@ -8,7 +8,7 @@ export function Table(props: TableProps) {
     <table
       {...props}
       className={twMerge(
-        "w-11/12 text-sm border-t-2 border-b-2 border-[#12372A] md:px-4",
+        "w-11/12 text-sm rounded-md overflow-hidden md:px-4 ",
         props.className
       )}
     />
@@ -28,7 +28,7 @@ export function TableHead(props: TableHeadProps) {
     <th
       {...props}
       className={twMerge(
-        "text-left py-3 px-4 font-medium text-[#12372A]",
+        "text-left py-3 px-4 font-medium text-[#FBFADA] bg-[#436850]",
         props.className
       )}
     />
@@ -42,7 +42,7 @@ export function TableBody(props: TableBodyProps) {
     <tbody
       {...props}
       className={twMerge(
-        "[&_tr:last-child]:border-0 [&_tr:hover]:bg-zinc-500/50",
+        "[&_tr:last-child]:border-0 [&_tr:hover]:bg-slate-300",
         props.className
       )}
     />
@@ -55,7 +55,7 @@ export function TableRow(props: TableRowProps) {
   return (
     <tr
       {...props}
-      className={twMerge("border-b border-[#12372A]", props.className)}
+      className={twMerge("border-b border-[#12372A] bg-white", props.className)}
     />
   );
 }

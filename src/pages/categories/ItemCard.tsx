@@ -15,7 +15,7 @@ export function ItemCard({ item }: ItemCardProps) {
   return (
     <div className="w-11/12 max-w-xl flex items-center justify-between rounded-md border border-gray-400 py-2 px-3 leading-normal shadow-lg bg-white">
       <div>
-        <div className="h-16 w-16 rounded-md bg-slate-300 flex items-center justify-center ">
+        <div className="h-16 w-16 rounded-md bg-slate-500 flex items-center justify-center ">
           Img
         </div>
       </div>

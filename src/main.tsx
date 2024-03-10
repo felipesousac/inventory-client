@@ -3,16 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { Router } from "./Router";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import { UserSessionProvider } from "./context/UserSession";
+import { UserSessionProvider } from "./contexts/UserSession";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <UserSessionProvider>
+    <UserSessionProvider>
+      <QueryClientProvider client={queryClient}>
         <Router />
-      </UserSessionProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </UserSessionProvider>
   </React.StrictMode>
 );

@@ -1,11 +1,11 @@
-import { useUserSessionContext } from "@/context/UserSession";
+import { useUserSessionContext } from "@/contexts/UserSession";
 import { FormEvent } from "react";
 
 export function LoginPage() {
   const username = "felipe";
   const userPass = "123456";
 
-  const { login } = useUserSessionContext();
+  const { login, logout } = useUserSessionContext();
 
   async function tryLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -19,7 +19,7 @@ export function LoginPage() {
         className="w-full rounded-md border border-[#436850]/60 flex flex-col items-center justify-center gap-4 py-4"
       >
         <div className="text-lg font-medium">Login</div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-2/3">
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -29,7 +29,7 @@ export function LoginPage() {
             defaultValue="felipe"
           />
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-2/3">
           <label htmlFor="userPass">Password</label>
           <input
             type="password"
@@ -41,7 +41,7 @@ export function LoginPage() {
         </div>
         <button
           type="submit"
-          className="bg-[#436850] text-white px-3 py-1 rounded-md"
+          className="bg-[#436850] text-white px-3 py-1 rounded-md block w-2/3"
         >
           Login
         </button>

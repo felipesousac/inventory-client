@@ -1,25 +1,41 @@
 import http from "@/http";
 import { TokenStore } from "@/utils/TokenStore";
-import axios from "axios";
-import { ComponentProps, createContext, useContext } from "react";
+import React, { ComponentProps, createContext, useContext } from "react";
+import { useNavigate } from "react-router";
 
 interface LoginProps {
   username: string;
   userPass: string;
 }
 
-const UserSessionContext = createContext({
+export type ProfileProps = {
+  username: string;
+  token: string;
+};
+
+type AuthContextProps = {
+  userIsLogged: boolean;
+  login: ({ username, userPass }: LoginProps) => void;
+  logout: () => void;
+  profile: string;
+};
+
+const UserSessionContext = createContext<AuthContextProps>({
   userIsLogged: false,
   login: ({ username, userPass }: LoginProps) => null,
   logout: () => null,
-  profile: {},
+  profile: "UserTeste",
 });
 
 export function useUserSessionContext() {
   return useContext(UserSessionContext);
 }
 
-export function UserSessionProvider({ children }: ComponentProps<any>) {
+export function UserSessionProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   async function login({ username, userPass }: LoginProps) {
     await http
       .post("/auth", {
@@ -27,15 +43,22 @@ export function UserSessionProvider({ children }: ComponentProps<any>) {
         userPass,
       })
       .then((response) => {
+        //const navigate = useNavigate();
+
         TokenStore.setToken(response.data.token);
+        window.location.href = "/";
+        //navigate("/home");
       })
       .catch((error) => {
         console.error(error);
       });
   }
 
+  const userIsLogged = TokenStore.getToken != null;
+
   const value = {
     login,
+    userIsLogged,
   };
 
   return (

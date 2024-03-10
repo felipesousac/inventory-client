@@ -7,7 +7,6 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { LucideArrowLeftCircle } from "lucide-react";
-import { ItemCard } from "./ItemCard";
 import { CreateItemForm } from "./CreateItemForm";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Pagination } from "@/components/Pagination";
@@ -21,6 +20,7 @@ import {
   TableRow,
 } from "@/components/Table";
 import { ItemDetailModal } from "./ItemDetailModal";
+import http from "@/http";
 
 export interface ItemResponse {
   content: Item[];
@@ -73,8 +73,8 @@ export function CategoryDetail() {
   const { data: itemsResponse, isLoading } = useQuery<ItemResponse>({
     queryKey: ["get-items", page, id],
     queryFn: async () => {
-      const data = axios
-        .get(`http://localhost:8080/items/${id}?page=${page}&size=10`)
+      const data = http
+        .get(`/items/${id}?page=${page}&size=10`)
         .then((response) => {
           return response.data;
         });
