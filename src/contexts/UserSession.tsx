@@ -43,7 +43,7 @@ export function UserSessionProvider({
       })
       .then((response) => {
         TokenStore.setToken(response.data.token);
-        window.location.href = "/";
+        window.location.href = "/home";
       })
       .catch((error) => {
         console.error(error);

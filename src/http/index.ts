@@ -28,6 +28,7 @@ http.interceptors.response.use(
     return response;
   },
   function (error) {
+    TokenStore.logout();
     window.location.href = "/login";
     return Promise.reject(error);
   }

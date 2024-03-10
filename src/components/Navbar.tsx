@@ -20,7 +20,7 @@ export function Navbar() {
           {userIsLogged && (
             <>
               <Link
-                to="/"
+                to="/home"
                 className="hover:bg-[#12372A] rounded-full p-2 transition-colors"
               >
                 <LucideHome />
