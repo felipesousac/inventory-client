@@ -7,8 +7,6 @@ export function LoginPage() {
 
   const { login, profile } = useUserSessionContext();
 
-  console.log(profile);
-
   async function tryLogin(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     login({ username, userPass });

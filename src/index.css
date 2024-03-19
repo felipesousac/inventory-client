@@ -6,6 +6,10 @@
     .all-unset {
         all: unset
     }
+
+    /*html {
+        scrollbar-gutter: stable;
+    }*/
 }
 
 /* Hide native number input arrows */

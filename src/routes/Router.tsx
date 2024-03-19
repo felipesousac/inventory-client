@@ -15,7 +15,7 @@ export function Router() {
 
   function redirectToLogin() {
     if (!userIsLogged) {
-      return redirect("/login");
+      return redirect("/");
     }
     return null;
   }
@@ -26,7 +26,7 @@ export function Router() {
       element: <App />,
       children: [
         {
-          path: "/login",
+          path: "/",
           element: <LoginPage />,
         },
         {
