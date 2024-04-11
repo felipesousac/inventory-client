@@ -4,7 +4,6 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-
 import { useSearchParams } from "react-router-dom";
 import { Button } from "./ui/Button";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "./ui/Select";
@@ -13,9 +12,10 @@ interface PaginationProps {
   pages: number;
   items: number;
   page: number;
+  size: number;
 }
 
-export function Pagination({ items, page, pages }: PaginationProps) {
+export function Pagination({ items, page, pages, size }: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function firstPage() {
@@ -58,13 +58,21 @@ export function Pagination({ items, page, pages }: PaginationProps) {
     });
   }
 
+  function onSelectChange(e: string) {
+    setSearchParams((params) => {
+      params.set("size", e);
+
+      return params;
+    });
+  }
+
   return (
     <div className="w-full md:w-11/12 flex flex-col md:flex-row-reverse text-sm items-center justify-center md:justify-between  mt-2 text-[#12372A]">
       <div className="flex items-center gap-8">
         <div className="flex items-center gap-2">
           <span>Rows per page</span>
 
-          <Select defaultValue="10">
+          <Select defaultValue="10" onValueChange={onSelectChange}>
             <SelectTrigger
               aria-label="Page"
               className=" text-[#FBFADA] bg-[#436850]/70"
@@ -121,7 +129,7 @@ export function Pagination({ items, page, pages }: PaginationProps) {
         </div>
       </div>
       <div className="mt-2">
-        Showing {items < 10 ? items : 10} of {items} items
+        Showing {items < 10 ? items : size} of {items} items
       </div>
     </div>
   );

@@ -54,7 +54,7 @@ export function UserSessionProvider({
 
   function logout() {
     TokenStore.logout();
-    window.location.href = "/login";
+    window.location.href = "/";
   }
 
   //Como retornar dados do perfil?

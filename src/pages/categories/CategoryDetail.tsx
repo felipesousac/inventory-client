@@ -68,12 +68,13 @@ export function CategoryDetail() {
   const [searchParams] = useSearchParams();
 
   const page = searchParams.get("page") ? Number(searchParams.get("page")) : 0;
+  const size = searchParams.get("size") ? Number(searchParams.get("size")) : 10;
 
   const { data: itemsResponse, isLoading } = useQuery<ItemResponse>({
-    queryKey: ["get-items", page, id],
+    queryKey: ["get-items", page, id, size],
     queryFn: async () => {
       const data = http
-        .get(`/items/${id}?page=${page}&size=10`)
+        .get(`/items/${id}?page=${page}&size=${size}`)
         .then((response) => {
           return response.data;
         });
@@ -138,6 +139,7 @@ export function CategoryDetail() {
             pages={itemsResponse.totalPages}
             items={itemsResponse.totalElements}
             page={page}
+            size={size}
           />
         ) : (
           <div className="text-md w-full text-center">

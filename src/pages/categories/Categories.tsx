@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import http from "@/http";
 
 // Interfaces of Pageable data API response
-export interface CategoryResponse {
+interface CategoryResponse {
   content: Categorie[];
   pageable: Pageable;
   last: boolean;
@@ -20,13 +20,13 @@ export interface CategoryResponse {
   empty: boolean;
 }
 
-export interface Categorie {
+interface Categorie {
   id: string;
   categoryName: string;
   description: string;
 }
 
-export interface Pageable {
+interface Pageable {
   pageNumber: number;
   pageSize: number;
   sort: Sort;
@@ -35,7 +35,7 @@ export interface Pageable {
   paged: boolean;
 }
 
-export interface Sort {
+interface Sort {
   empty: boolean;
   sorted: boolean;
   unsorted: boolean;
@@ -45,12 +45,13 @@ export function Categories() {
   const [searchParams] = useSearchParams();
 
   const page = searchParams.get("page") ? Number(searchParams.get("page")) : 0;
+  const size = searchParams.get("size") ? Number(searchParams.get("size")) : 10;
 
   const { data: categoriesResponse, isLoading } = useQuery<CategoryResponse>({
-    queryKey: ["get-categories", page],
+    queryKey: ["get-categories", page, size],
     queryFn: async () => {
       const data = await http
-        .get(`/categories?page=${page}&size=10`)
+        .get(`/categories?page=${page}&size=${size}`)
         .then((response) => {
           return response.data;
         });
@@ -89,6 +90,7 @@ export function Categories() {
             pages={categoriesResponse.totalPages}
             items={categoriesResponse.totalElements}
             page={page}
+            size={size}
           />
         )}
       </div>
