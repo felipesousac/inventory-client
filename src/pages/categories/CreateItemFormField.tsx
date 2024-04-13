@@ -13,10 +13,22 @@ const createItemSchema = z.object({
     .string()
     .min(3, { message: "Minimum 3 characters" })
     .max(30, { message: "Maximum 30 characters" }),
-  description: z.string().max(50, { message: "Maximum 50 characters" }),
-  price: z.coerce.number().gt(0, { message: "Must be more than zero" }),
+  description: z
+    .string()
+    .min(5, { message: "Minimum 5 characters" })
+    .max(50, { message: "Maximum 50 characters" }),
+  price: z.coerce
+    .number({
+      required_error: "Required",
+      invalid_type_error: "Must be a number",
+    })
+    .gt(0, { message: "Must be more than zero" }),
   numberInStock: z.coerce
-    .number()
+    .number({
+      required_error: "Required",
+      invalid_type_error: "Must be a number",
+    })
+    .int({ message: "Must be an integer" })
     .nonnegative({ message: "Must not be less than zero" }),
 });
 

@@ -7,6 +7,7 @@ export class TokenStore {
 
   static logout() {
     sessionStorage.removeItem(TOKEN);
+    window.location.href = "/";
   }
 
   static get getToken() {

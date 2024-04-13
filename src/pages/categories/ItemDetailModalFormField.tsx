@@ -36,9 +36,18 @@ const editItemSchema = z.object({
     .string()
     .min(5, { message: "Minimum 5 characters" })
     .max(50, { message: "Maximum 50 characters" }),
-  price: z.coerce.number().gt(0, { message: "Must be more than zero" }),
+  price: z.coerce
+    .number({
+      required_error: "Required",
+      invalid_type_error: "Must be a number",
+    })
+    .gt(0, { message: "Must be more than zero" }),
   numberInStock: z.coerce
-    .number()
+    .number({
+      required_error: "Required",
+      invalid_type_error: "Must be a number",
+    })
+    .int({ message: "Must be an integer" })
     .nonnegative({ message: "Must not be less than zero" }),
 });
 
@@ -214,14 +223,13 @@ export function ItemDetailModalFormField({
                   })}
                   placeholder="Number in Stock"
                   id="numberInStock"
-                  type="number"
                   className="text-gray-700 text-base border border-gray-700 rounded-md p-1 w-full"
                 />
               </div>
               <div>
                 <div className="flex justify-between">
                   <label htmlFor="unitPrice" className="block font-medium">
-                    Price of unity
+                    Unit price
                   </label>
                   {formState.errors?.price?.message && (
                     <p className="text-sm text-red-500">
@@ -233,7 +241,6 @@ export function ItemDetailModalFormField({
                   {...register("price", { value: item.price })}
                   placeholder="Unit Price"
                   id="unitPrice"
-                  type="number"
                   className="text-gray-700 text-base border border-gray-700 rounded-md p-1 w-full"
                 />
               </div>
