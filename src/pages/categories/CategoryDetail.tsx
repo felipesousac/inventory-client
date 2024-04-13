@@ -63,7 +63,8 @@ export function CategoryDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const [data] = useState(location.state);
+  const [categoryName] = useState(location.state.categoryName);
+  const [previousPage] = useState(location.state.pageNumber);
 
   const [searchParams] = useSearchParams();
 
@@ -89,9 +90,9 @@ export function CategoryDetail() {
     <div className="mx-auto max-w-6xl">
       <div className="text-[#12372A] text-2xl mx-auto flex flex-col items-center py-4 gap-3">
         <div className="grid grid-cols-3 justify-items-center items-center w-full">
-          <div className="col-start-2 truncate">{data}</div>
+          <div className="col-start-2 truncate">{categoryName}</div>
           <button
-            onClick={() => navigate("/categories")}
+            onClick={() => navigate(`/categories?page=${previousPage}`)}
             className="ml-auto mr-10 hover:text-[#436850] transition-colors"
           >
             <LucideArrowLeftCircle />
