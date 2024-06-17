@@ -8,13 +8,13 @@ import { Home } from "../pages/home/Home";
 import { Categories } from "../pages/categories/Categories";
 import { CategoryDetail } from "../pages/categories/CategoryDetail";
 import { LoginPage } from "../pages/login/LoginPage";
-import { useUserSessionContext } from "@/contexts/UserSession";
+import { getUsernameSessionStorage } from "@/contexts/authProvider/util";
 
 export function Router() {
-  const { userIsLogged } = useUserSessionContext();
+  const user = getUsernameSessionStorage();
 
   function redirectToLogin() {
-    if (!userIsLogged) {
+    if (!user) {
       return redirect("/");
     }
     return null;

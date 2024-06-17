@@ -1,14 +1,9 @@
-import { useUserSessionContext } from "@/contexts/UserSession";
-import {
-  LucideComponent,
-  LucideHome,
-  LucideLogIn,
-  LucideLogOut,
-} from "lucide-react";
+import { useAuth } from "@/contexts/authProvider/useAuth";
+import { LucideComponent, LucideHome, LucideLogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export function Navbar() {
-  const { userIsLogged, logout } = useUserSessionContext();
+  const { username, logout } = useAuth();
 
   return (
     <div className="w-full bg-[#436850] shadow-xl">
@@ -17,7 +12,7 @@ export function Navbar() {
           <LucideComponent /> <span>Inventory</span>
         </div>
         <div className="flex items-center gap-5">
-          {userIsLogged && (
+          {username && (
             <>
               <Link
                 to="/home"

@@ -79,7 +79,6 @@ export function Categories() {
                   key={category.id}
                   category={category}
                   url={`/categories/${category.id}`}
-                  pageNumber={page}
                 />
               );
             })}

@@ -1,4 +1,4 @@
-import { TokenStore } from "@/utils/TokenStore";
+import { getTokenData } from "@/contexts/authProvider/util";
 import axios from "axios";
 
 const http = axios.create({
@@ -10,7 +10,7 @@ const http = axios.create({
 
 http.interceptors.request.use(
   function (config) {
-    const token = TokenStore.getToken;
+    const token = getTokenData();
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -28,7 +28,7 @@ http.interceptors.response.use(
     return response;
   },
   function (error) {
-    TokenStore.logout();
+    console.log(error.response.data);
     return Promise.reject(error);
   }
 );
