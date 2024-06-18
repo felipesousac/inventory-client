@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }: IAuthProvider) => {
         window.location.href = "/home";
       }
     } catch (error) {
-      console.log("Cheguei no erro agora");
+      throw error;
     }
   }
 

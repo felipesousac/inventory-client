@@ -6,7 +6,7 @@ export async function LoginRequest(username: string, userPass: string) {
     const request = await http.post("/auth", { username, userPass });
     return request.data;
   } catch (error) {
-    return error;
+    throw error;
   }
 }
 
