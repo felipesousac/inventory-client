@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const loginFields = z.object({
-  username: z.string().min(1),
-  userPass: z.string().min(1),
+  username: z.string().min(1, { message: "Required" }),
+  userPass: z.string().min(1, { message: "Required" }),
 });
 
 type LoginFieldsSchema = z.infer<typeof loginFields>;
@@ -52,6 +52,11 @@ export function LoginPage() {
             placeholder="Username"
             className="px-1"
           />
+          {formState.errors?.username?.message && (
+            <p className="text-sm text-red-500">
+              * {formState.errors.username.message}
+            </p>
+          )}
         </div>
         <div className="flex flex-col gap-2 w-2/3">
           <label htmlFor="userPass">Password</label>
@@ -62,9 +67,14 @@ export function LoginPage() {
             placeholder="Password"
             className="px-1"
           />
+          {formState.errors?.userPass?.message && (
+            <p className="text-sm text-red-500">
+              * {formState.errors.userPass.message}
+            </p>
+          )}
         </div>
         {isInvalid && (
-          <div className="flex flex-col gap-2 w-2/3 text-red-500">
+          <div className="flex flex-col gap-2 w-2/3 text-red-500 text-sm">
             {`* ${credentialsExMessage}`}
           </div>
         )}
