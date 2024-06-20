@@ -64,10 +64,13 @@ export function ItemDetailModalFormField({
   const queryClient = useQueryClient();
 
   const [isSaving, setIsSaving] = useState(false);
+  const [isAlreadyCreated, setIsAlreadyCreated] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const { register, handleSubmit, formState } = useForm<EditItemSchema>({
-    resolver: zodResolver(editItemSchema),
-  });
+  const { register, handleSubmit, formState, setValue } =
+    useForm<EditItemSchema>({
+      resolver: zodResolver(editItemSchema),
+    });
 
   const { mutateAsync } = useMutation({
     mutationFn: async (id: string) => {
@@ -122,7 +125,8 @@ export function ItemDetailModalFormField({
           confirmUpdate();
         })
         .catch((error) => {
-          console.log(error);
+          checkError(error);
+          setIsSaving(false);
         });
     },
     onSuccess: () => {
@@ -154,6 +158,16 @@ export function ItemDetailModalFormField({
   function confirmUpdate() {
     setShowOptions(!showOptions);
     setShowUpdateConfirm(!showUpdateConfirm);
+    setIsAlreadyCreated(false);
+    setValue("itemName", item.itemName);
+  }
+
+  function checkError(error: any) {
+    if (error.response.status == 400) {
+      setIsAlreadyCreated(true);
+      setErrorMessage(error.response.data.title);
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -182,6 +196,10 @@ export function ItemDetailModalFormField({
                   className="text-gray-700 text-base border border-gray-700 rounded-md p-1 w-full"
                 />
               </div>
+
+              {isAlreadyCreated && (
+                <div className="text-red-500 text-sm">{`* ${errorMessage}`}</div>
+              )}
 
               <div>
                 <div className="flex justify-between">
@@ -294,7 +312,7 @@ export function ItemDetailModalFormField({
                 </button>
                 <button
                   onClick={confirmUpdate}
-                  className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-gray-300 transition-colors"
+                  className="rounded-full px-3 py-1 text-sm text-gray-700 font-semibold hover:bg-red-500 hover:text-[white] transition-colors"
                 >
                   No
                 </button>

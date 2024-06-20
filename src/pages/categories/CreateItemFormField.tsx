@@ -45,6 +45,8 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
   const queryClient = useQueryClient();
 
   const [isSaving, setIsSaving] = useState(false);
+  const [isAlreadyCreated, setIsAlreadyCreated] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const { register, handleSubmit, formState } = useForm<CreateItemSchema>({
     resolver: zodResolver(createItemSchema),
@@ -84,7 +86,7 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
           afterRegister();
         })
         .catch((error) => {
-          console.log(error);
+          checkError(error);
         });
     },
     onSuccess: () => {
@@ -107,6 +109,14 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
       numberInStock,
       categoryId: categoryId,
     });
+  }
+
+  function checkError(error: any) {
+    if (error.response.status == 400) {
+      setIsAlreadyCreated(true);
+      setErrorMessage(error.response.data.title);
+      setIsSaving(false);
+    }
   }
 
   return (
@@ -183,6 +193,12 @@ export function CreateItemFormField({ afterRegister, categoryId }: FieldProps) {
             </p>
           )}
         </div>
+
+        {isAlreadyCreated && (
+          <div className="flex flex-col gap-2 w-2/3 text-red-500 text-sm">
+            {`* ${errorMessage}`}
+          </div>
+        )}
 
         <div className="flex gap-4 justify-end py-4">
           <Dialog.Close asChild>

@@ -24,7 +24,7 @@ export function CreateItemForm({ categoryId }: Props) {
             <div className="mx-auto flex items-center bg-[#436850] text-[#FBFADA]">
               <Dialog.Title className="text-xl p-2">New Item</Dialog.Title>
             </div>
-            <Dialog.Description className="bg-slate-200 mx-auto max-w-6xl pt-3 px-4 text-[#12372A]/90 tracking-tight flex flex-col items-left justify-start gap-2">
+            <div className="bg-slate-200 mx-auto max-w-6xl pt-3 px-4 text-[#12372A]/90 tracking-tight flex flex-col items-left justify-start gap-2">
               <p>
                 New items can be registered in the inventory by filling out the
                 form below
@@ -35,7 +35,7 @@ export function CreateItemForm({ categoryId }: Props) {
                 afterRegister={() => setIsDialogOpen(false)}
                 categoryId={categoryId}
               />
-            </Dialog.Description>
+            </div>
           </div>
         </Dialog.Content>
       </Dialog.Portal>
